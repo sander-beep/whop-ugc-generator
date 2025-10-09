@@ -23,7 +23,7 @@ export async function POST(request: NextRequest): Promise<Response> {
     );
 
     // Handle payment success asynchronously
-    await handlePaymentSuccess(user_id, id, final_amount, currency, metadata);
+    await handlePaymentSuccess(user_id, id, final_amount, currency, metadata ?? undefined);
   }
 
   // Make sure to return a 2xx status code quickly. Otherwise the webhook will be retried.
