@@ -14,15 +14,15 @@ export async function GET() {
     const user = await whopSdk.users.getUser({ userId });
     
     // Ensure user exists in Supabase with Whop ID
-    await ensureUserExists(userId, user.email);
+    await ensureUserExists(userId, null);
     
     return NextResponse.json({ 
       user: {
         id: userId,
-        email: user.email,
+        email: null, // Email not available from Whop public profile
         name: user.name,
         username: user.username,
-        profilePictureUrl: user.profilePictureUrl,
+        profilePictureUrl: user.profilePicture?.sourceUrl ?? null,
       }
     });
   } catch (error) {
