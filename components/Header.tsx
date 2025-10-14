@@ -1,9 +1,10 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useAuth } from './AuthProvider'
 import { Button } from './ui/button'
-import { Video, Coins, User } from 'lucide-react'
+import { Coins, User } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 export function Header() {
@@ -13,8 +14,14 @@ export function Header() {
     <header className="border-b bg-white">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 text-xl font-semibold">
-          <Video className="w-7 h-7" />
-          <span>AI UGC Ad Generator</span>
+          <Image 
+            src="https://i.imgur.com/oRfIyIS.png" 
+            alt="Logo" 
+            width={28} 
+            height={28}
+            className="w-7 h-7"
+          />
+          <span>UGC Ad Generator</span>
         </Link>
         {user && (
           <nav className="flex items-center gap-4">

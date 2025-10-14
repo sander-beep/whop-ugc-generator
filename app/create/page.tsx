@@ -13,18 +13,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Plus, Trash2, Upload, AlertCircle } from 'lucide-react'
 
-type Scene = {
-  description: string
-  script: string
+type Segment = {
+  dialogue: string
+  visualDescription: string
 }
 
 export default function CreatePage() {
   const { user, loading: authLoading } = useAuth()
   const router = useRouter()
+  const [productDescription, setProductDescription] = useState('')
   const [targetAudience, setTargetAudience] = useState('')
   const [ugcCharacter, setUgcCharacter] = useState('')
+  const [platform, setPlatform] = useState('TikTok')
   const [aspectRatio, setAspectRatio] = useState('9:16')
-  const [scenes, setScenes] = useState<Scene[]>([{ description: '', script: '' }])
+  const [segments, setSegments] = useState<Segment[]>([{ dialogue: '', visualDescription: '' }])
   const [productImage, setProductImage] = useState<File | null>(null)
   const [imageError, setImageError] = useState<string>('')
   const [loading, setLoading] = useState(false)
@@ -49,22 +51,22 @@ export default function CreatePage() {
     }
   }
 
-  const addScene = () => {
-    if (scenes.length < 4) {
-      setScenes([...scenes, { description: '', script: '' }])
+  const addSegment = () => {
+    if (segments.length < 4) {
+      setSegments([...segments, { dialogue: '', visualDescription: '' }])
     }
   }
 
-  const removeScene = (index: number) => {
-    if (scenes.length > 1) {
-      setScenes(scenes.filter((_, i) => i !== index))
+  const removeSegment = (index: number) => {
+    if (segments.length > 1) {
+      setSegments(segments.filter((_, i) => i !== index))
     }
   }
 
-  const updateScene = (index: number, field: 'description' | 'script', value: string) => {
-    const newScenes = [...scenes]
-    newScenes[index][field] = value
-    setScenes(newScenes)
+  const updateSegment = (index: number, field: 'dialogue' | 'visualDescription', value: string) => {
+    const newSegments = [...segments]
+    newSegments[index][field] = value
+    setSegments(newSegments)
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,9 +102,9 @@ export default function CreatePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const totalCost = scenes.length * 100
+    const totalCost = 100 // Always 100 tokens per video
     if (tokenBalance < totalCost) {
-      alert(`Insufficient tokens. You need ${totalCost} tokens to generate this video (${scenes.length} scenes × 100 tokens).`)
+      alert(`Insufficient tokens. You need ${totalCost} tokens to generate this video.`)
       router.push('/tokens')
       return
     }
@@ -134,11 +136,13 @@ export default function CreatePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           promptData: {
+            product_image_url: productImageUrl,
+            product_description: productDescription,
             target_audience: targetAudience,
             ugc_character: ugcCharacter,
+            platform: platform,
             aspect_ratio: aspectRatio,
-            scenes,
-            product_image_url: productImageUrl,
+            segments: segments,
           }
         }),
       })
@@ -214,6 +218,18 @@ export default function CreatePage() {
               </div>
 
               <div className="space-y-2">
+                <Label htmlFor="product-description">Product Description</Label>
+                <Textarea
+                  id="product-description"
+                  placeholder="Describe your product in detail..."
+                  value={productDescription}
+                  onChange={(e) => setProductDescription(e.target.value)}
+                  rows={3}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
                 <Label htmlFor="target-audience">Target Audience</Label>
                 <Input
                   id="target-audience"
@@ -236,6 +252,21 @@ export default function CreatePage() {
               </div>
 
               <div className="space-y-2">
+                <Label htmlFor="platform">Platform</Label>
+                <Select value={platform} onValueChange={setPlatform}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TikTok">TikTok</SelectItem>
+                    <SelectItem value="Instagram">Instagram</SelectItem>
+                    <SelectItem value="YouTube">YouTube</SelectItem>
+                    <SelectItem value="Facebook">Facebook</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
                 <Label htmlFor="aspect-ratio">Aspect Ratio</Label>
                 <Select value={aspectRatio} onValueChange={setAspectRatio}>
                   <SelectTrigger>
@@ -251,65 +282,81 @@ export default function CreatePage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label>Scenes ({scenes.length}/4)</Label>
-                    <p className="text-xs text-neutral-500 mt-1">Each scene is 10 seconds long and costs 100 tokens</p>
+                    <Label>Segments ({segments.length}/4)</Label>
+                    <p className="text-xs text-neutral-500 mt-1">Total video: 10 seconds • 100 tokens</p>
                   </div>
-                  {scenes.length < 4 && (
-                    <Button type="button" variant="outline" size="sm" onClick={addScene}>
+                  {segments.length < 4 && (
+                    <Button type="button" variant="outline" size="sm" onClick={addSegment}>
                       <Plus className="w-4 h-4 mr-1" />
-                      Add Scene
+                      Add Segment
                     </Button>
                   )}
                 </div>
 
-                {scenes.map((scene, index) => (
-                  <Card key={index}>
-                    <CardContent className="pt-6 space-y-3">
-                      <div className="flex items-center justify-between mb-2">
-                        <div>
-                          <span className="text-sm font-medium">Scene {index + 1}</span>
-                          <span className="text-xs text-neutral-500 ml-2">(10s • 100 tokens)</span>
+                {segments.map((segment, index) => {
+                  const segmentDuration = (10 / segments.length).toFixed(1);
+                  return (
+                    <Card key={index}>
+                      <CardContent className="pt-6 space-y-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <div>
+                            <span className="text-sm font-medium">Segment {index + 1}</span>
+                            <span className="text-xs text-neutral-500 ml-2">({segmentDuration}s)</span>
+                          </div>
+                          {segments.length > 1 && (
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removeSegment(index)}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          )}
                         </div>
-                        {scenes.length > 1 && (
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => removeScene(index)}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        )}
-                      </div>
-                      <Textarea
-                        placeholder="Describe the scene..."
-                        value={scene.description}
-                        onChange={(e) => updateScene(index, 'description', e.target.value)}
-                        rows={3}
-                        required
-                      />
-                      <Textarea
-                        placeholder="Scene script..."
-                        value={scene.script}
-                        onChange={(e) => updateScene(index, 'script', e.target.value)}
-                        rows={3}
-                        required
-                      />
-                    </CardContent>
-                  </Card>
-                ))}
+                        <Textarea
+                          placeholder="Dialogue for this segment..."
+                          value={segment.dialogue}
+                          onChange={(e) => updateSegment(index, 'dialogue', e.target.value)}
+                          rows={3}
+                          required
+                        />
+                        <Textarea
+                          placeholder="Visual description for this segment..."
+                          value={segment.visualDescription}
+                          onChange={(e) => updateSegment(index, 'visualDescription', e.target.value)}
+                          rows={3}
+                          required
+                        />
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
 
               <div className="flex items-center justify-between pt-4 border-t">
                 <div className="text-sm">
                   <div className="text-neutral-600">
-                    Total Cost: <span className="font-semibold text-neutral-900">{scenes.length} × 100 = {scenes.length * 100} tokens</span>
+                    Total Cost: <span className="font-semibold text-neutral-900">100 tokens</span>
                   </div>
                   <div className="text-neutral-500 text-xs mt-1">
-                    Your Balance: <span className="font-semibold">{tokenBalance} tokens</span>
+                    Your Balance: <span className={`font-semibold ${tokenBalance < 100 ? 'text-red-600' : ''}`}>{tokenBalance} tokens</span>
                   </div>
+                  {tokenBalance < 100 && (
+                    <div className="mt-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => router.push('/tokens')}
+                        className="text-xs"
+                      >
+                        Buy More Tokens
+                      </Button>
+                    </div>
+                  )}
                 </div>
-                <Button type="submit" disabled={loading || tokenBalance < scenes.length * 100}>
+                <Button type="submit" disabled={loading || tokenBalance < 100}>
                   {loading ? 'Generating...' : 'Generate Video'}
                 </Button>
               </div>

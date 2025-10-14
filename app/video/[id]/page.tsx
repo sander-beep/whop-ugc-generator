@@ -3,8 +3,7 @@
 import { useEffect, useState, use } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
-import { supabase } from '@/lib/supabase'
-import type { Video } from '@/lib/supabase'
+import { supabase, type Video } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -118,6 +117,12 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
             <div className="border-t pt-6 space-y-4">
               <h3 className="font-semibold">Generation Details</h3>
               <div className="grid gap-4 text-sm">
+                {video.prompt_data.product_description && (
+                  <div>
+                    <span className="text-neutral-600">Product Description:</span>
+                    <div className="font-medium">{video.prompt_data.product_description}</div>
+                  </div>
+                )}
                 <div>
                   <span className="text-neutral-600">Target Audience:</span>
                   <div className="font-medium">{video.prompt_data.target_audience}</div>
@@ -126,25 +131,31 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
                   <span className="text-neutral-600">UGC Character:</span>
                   <div className="font-medium">{video.prompt_data.ugc_character}</div>
                 </div>
+                {video.prompt_data.platform && (
+                  <div>
+                    <span className="text-neutral-600">Platform:</span>
+                    <div className="font-medium">{video.prompt_data.platform}</div>
+                  </div>
+                )}
                 <div>
                   <span className="text-neutral-600">Aspect Ratio:</span>
                   <div className="font-medium">{video.prompt_data.aspect_ratio}</div>
                 </div>
                 <div>
-                  <span className="text-neutral-600">Scenes:</span>
+                  <span className="text-neutral-600">Segments:</span>
                   <div className="space-y-2 mt-2">
-                    {video.prompt_data.scenes.map((scene, index) => (
+                    {video.prompt_data.segments?.map((segment, index) => (
                       <div key={index} className="bg-neutral-50 p-3 rounded">
                         <div className="font-medium text-xs text-neutral-500 mb-1">
-                          Scene {index + 1}
+                          Segment {index + 1}
                         </div>
                         <div className="text-sm mb-2">
-                          <span className="text-neutral-600">Description: </span>
-                          {scene.description}
+                          <span className="text-neutral-600">Dialogue: </span>
+                          {segment.dialogue}
                         </div>
                         <div className="text-sm">
-                          <span className="text-neutral-600">Script: </span>
-                          {scene.script}
+                          <span className="text-neutral-600">Visual Description: </span>
+                          {segment.visualDescription}
                         </div>
                       </div>
                     ))}

@@ -16,14 +16,16 @@ export type Video = {
   id: string
   user_id: string
   prompt_data: {
+    product_image_url?: string
+    product_description?: string
     target_audience: string
     ugc_character: string
+    platform?: string
     aspect_ratio: string
-    scenes: Array<{
-      description: string
-      script: string
+    segments?: Array<{
+      dialogue: string
+      visualDescription: string
     }>
-    product_image_url?: string
   }
   video_url: string | null
   status: 'processing' | 'completed' | 'failed'

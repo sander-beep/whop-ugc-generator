@@ -18,8 +18,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No prompt data provided' }, { status: 400 });
     }
     
-    // Deduct 100 tokens for video generation
-    await deductTokens(userId, 100);
+    // Token cost: always 100 tokens per video (regardless of segments)
+    const tokenCost = 100;
+    
+    // Deduct tokens for video generation
+    await deductTokens(userId, tokenCost);
     
     // Create video record in database with processing status
     const { data: videoData, error: dbError } = await supabaseAdmin
@@ -37,7 +40,7 @@ export async function POST(request: NextRequest) {
     if (dbError) {
       console.error('Error creating video record:', dbError);
       // Refund tokens if creation fails
-      await addTokens(userId, 100);
+      await addTokens(userId, tokenCost);
       return NextResponse.json({ error: 'Failed to create video record' }, { status: 500 });
     }
     
