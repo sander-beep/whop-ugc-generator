@@ -75,7 +75,7 @@ export default function TokensPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           packageId: pkg.id,
-          amount: pkg.price * 0.1,
+          amount: pkg.price,
           tokens: pkg.tokens,
         }),
       })
