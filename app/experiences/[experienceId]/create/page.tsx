@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -21,6 +21,8 @@ type Segment = {
 export default function CreatePage() {
   const { user, loading: authLoading } = useAuth()
   const router = useRouter()
+  const params = useParams()
+  const experienceId = params.experienceId as string
   const [productDescription, setProductDescription] = useState('')
   const [targetAudience, setTargetAudience] = useState('')
   const [ugcCharacter, setUgcCharacter] = useState('')
@@ -105,7 +107,7 @@ export default function CreatePage() {
     const totalCost = 100 // Always 100 tokens per video
     if (tokenBalance < totalCost) {
       alert(`Insufficient tokens. You need ${totalCost} tokens to generate this video.`)
-      router.push('/tokens')
+      router.push(`/experiences/${experienceId}/tokens`)
       return
     }
 
@@ -156,7 +158,7 @@ export default function CreatePage() {
       // Refresh token balance
       await fetchTokenBalance()
 
-      router.push(`/video/${video.id}`)
+      router.push(`/experiences/${experienceId}/video/${video.id}`)
     } catch (error) {
       console.error(error)
       
@@ -164,7 +166,7 @@ export default function CreatePage() {
       const errorMessage = error instanceof Error ? error.message : 'Failed to create video'
       if (errorMessage.includes('Insufficient token balance')) {
         alert('Insufficient tokens. Please purchase more tokens.')
-        router.push('/tokens')
+        router.push(`/experiences/${experienceId}/tokens`)
       } else {
         alert('Failed to create video')
       }
@@ -348,7 +350,7 @@ export default function CreatePage() {
                         type="button"
                         variant="outline"
                         size="sm"
-                        onClick={() => router.push('/tokens')}
+                        onClick={() => router.push(`/experiences/${experienceId}/tokens`)}
                         className="text-xs"
                       >
                         Buy More Tokens

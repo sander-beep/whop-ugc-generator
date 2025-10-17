@@ -10,8 +10,8 @@ import { Badge } from '@/components/ui/badge'
 import { Download, Video as VideoIcon, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
 
-export default function VideoPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params)
+export default function VideoPage({ params }: { params: Promise<{ experienceId: string, id: string }> }) {
+  const { experienceId, id } = use(params)
   const { user, loading: authLoading } = useAuth()
   const router = useRouter()
   const [video, setVideo] = useState<Video | null>(null)
@@ -165,12 +165,12 @@ export default function VideoPage({ params }: { params: Promise<{ id: string }> 
             </div>
 
             <div className="flex gap-3">
-              <Link href="/" className="flex-1">
+              <Link href={`/experiences/${experienceId}`} className="flex-1">
                 <Button variant="outline" className="w-full">
                   Back to Dashboard
                 </Button>
               </Link>
-              <Link href="/create" className="flex-1">
+              <Link href={`/experiences/${experienceId}/create`} className="flex-1">
                 <Button className="w-full">
                   Generate Another
                 </Button>

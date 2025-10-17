@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ExperienceDashboard } from "@/components/ExperienceDashboard";
 
 export default async function ExperiencePage({
   params,
@@ -59,46 +60,14 @@ export default async function ExperiencePage({
     }
 
     return (
-      <div className="min-h-screen bg-neutral-50">
-        <div className="container mx-auto px-4 py-8">
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle className="text-2xl">
-                Welcome to {experience.name}!
-              </CardTitle>
-              <CardDescription>
-                Hi <strong>{user.name}</strong> (@{user.username})
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <span className="text-neutral-500">Access Level:</span>
-                  <p className="font-medium capitalize">{accessLevel}</p>
-                </div>
-                <div>
-                  <span className="text-neutral-500">User ID:</span>
-                  <p className="font-mono text-xs">{userId}</p>
-                </div>
-              </div>
-              
-              <div className="pt-4 border-t">
-                <h3 className="font-semibold mb-3">Get Started</h3>
-                <div className="grid gap-3">
-                  <Link href="/create">
-                    <Button className="w-full">Create New UGC Ad</Button>
-                  </Link>
-                  <Link href="/tokens">
-                    <Button variant="outline" className="w-full">
-                      Manage Tokens
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      <ExperienceDashboard
+        experienceId={experienceId}
+        whopUserId={userId}
+        whopUserName={user.name || 'User'}
+        whopUsername={user.username || 'user'}
+        experienceName={experience.name || 'Experience'}
+        accessLevel={accessLevel}
+      />
     );
   } catch (error) {
     console.error("Error in experience page:", error);
