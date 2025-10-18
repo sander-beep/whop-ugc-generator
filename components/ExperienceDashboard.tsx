@@ -85,29 +85,29 @@ export function ExperienceDashboard({
   if (!user) return null
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         {/* Dashboard Stats */}
         <div className="grid gap-6 md:grid-cols-3 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Token Balance</CardTitle>
-              <Coins className="w-4 h-4 text-neutral-500" />
+              <Coins className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{userData?.token_balance || 0}</div>
-              <p className="text-xs text-neutral-500 mt-1">Available tokens</p>
+              <div className="text-3xl font-bold text-foreground">{userData?.token_balance || 0}</div>
+              <p className="text-xs text-muted-foreground mt-1">Available tokens</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Total Videos</CardTitle>
-              <VideoIcon className="w-4 h-4 text-neutral-500" />
+              <VideoIcon className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{videos.length}</div>
-              <p className="text-xs text-neutral-500 mt-1">Generated ads</p>
+              <div className="text-3xl font-bold text-foreground">{videos.length}</div>
+              <p className="text-xs text-muted-foreground mt-1">Generated ads</p>
             </CardContent>
           </Card>
 
@@ -131,7 +131,7 @@ export function ExperienceDashboard({
           </CardHeader>
           <CardContent>
             {videos.length === 0 ? (
-              <div className="text-center py-12 text-neutral-500">
+              <div className="text-center py-12 text-muted-foreground">
                 <VideoIcon className="w-12 h-12 mx-auto mb-4 opacity-50" />
                 <p className="mb-4">No videos yet</p>
                 <Link href={`/experiences/${experienceId}/create`}>
@@ -142,12 +142,12 @@ export function ExperienceDashboard({
               <div className="space-y-4">
                 {videos.map((video) => (
                   <Link key={video.id} href={`/experiences/${experienceId}/video/${video.id}`}>
-                    <div className="flex items-center justify-between p-4 border rounded-lg hover:bg-neutral-50 transition-colors">
+                    <div className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-accent/50 transition-colors">
                       <div className="flex-1">
-                        <div className="font-medium mb-1">
+                        <div className="font-medium mb-1 text-foreground">
                           {video.prompt_data.target_audience}
                         </div>
-                        <div className="text-sm text-neutral-500">
+                        <div className="text-sm text-muted-foreground">
                           {new Date(video.created_at).toLocaleDateString()}
                         </div>
                       </div>

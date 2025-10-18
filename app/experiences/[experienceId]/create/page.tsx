@@ -182,7 +182,7 @@ export default function CreatePage() {
   if (!user) return null
 
   return (
-    <div className="min-h-screen bg-neutral-50 py-8">
+    <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4 max-w-3xl">
         <Card>
           <CardHeader>
@@ -193,7 +193,7 @@ export default function CreatePage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="product-image">Product Image</Label>
-                <div className={`border-2 border-dashed rounded-lg p-6 text-center hover:border-neutral-400 transition-colors ${imageError ? 'border-red-300 bg-red-50' : ''}`}>
+                <div className={`border-2 border-dashed rounded-lg p-6 text-center hover:border-muted-foreground/50 transition-colors ${imageError ? 'border-red-500 bg-red-950/10' : 'border-border'}`}>
                   <input
                     type="file"
                     id="product-image"
@@ -202,11 +202,11 @@ export default function CreatePage() {
                     className="hidden"
                   />
                   <label htmlFor="product-image" className="cursor-pointer">
-                    <Upload className={`w-8 h-8 mx-auto mb-2 ${imageError ? 'text-red-400' : 'text-neutral-400'}`} />
-                    <div className="text-sm text-neutral-600">
+                    <Upload className={`w-8 h-8 mx-auto mb-2 ${imageError ? 'text-red-400' : 'text-muted-foreground'}`} />
+                    <div className="text-sm text-foreground">
                       {productImage ? productImage.name : 'Click to upload product image'}
                     </div>
-                    <div className="text-xs text-neutral-500 mt-1">
+                    <div className="text-xs text-muted-foreground mt-1">
                       Supports JPEG, PNG, WebP (max 10MB)
                     </div>
                   </label>
@@ -285,7 +285,7 @@ export default function CreatePage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label>Segments ({segments.length}/4)</Label>
-                    <p className="text-xs text-neutral-500 mt-1">Total video: 10 seconds • 100 tokens</p>
+                    <p className="text-xs text-muted-foreground mt-1">Total video: 10 seconds • 100 tokens</p>
                   </div>
                   {segments.length < 4 && (
                     <Button type="button" variant="outline" size="sm" onClick={addSegment}>
@@ -302,8 +302,8 @@ export default function CreatePage() {
                       <CardContent className="pt-6 space-y-3">
                         <div className="flex items-center justify-between mb-2">
                           <div>
-                            <span className="text-sm font-medium">Segment {index + 1}</span>
-                            <span className="text-xs text-neutral-500 ml-2">({segmentDuration}s)</span>
+                            <span className="text-sm font-medium text-foreground">Segment {index + 1}</span>
+                            <span className="text-xs text-muted-foreground ml-2">({segmentDuration}s)</span>
                           </div>
                           {segments.length > 1 && (
                             <Button
@@ -336,13 +336,13 @@ export default function CreatePage() {
                 })}
               </div>
 
-              <div className="flex items-center justify-between pt-4 border-t">
+              <div className="flex items-center justify-between pt-4 border-t border-border">
                 <div className="text-sm">
-                  <div className="text-neutral-600">
-                    Total Cost: <span className="font-semibold text-neutral-900">100 tokens</span>
+                  <div className="text-muted-foreground">
+                    Total Cost: <span className="font-semibold text-foreground">100 tokens</span>
                   </div>
-                  <div className="text-neutral-500 text-xs mt-1">
-                    Your Balance: <span className={`font-semibold ${tokenBalance < 100 ? 'text-red-600' : ''}`}>{tokenBalance} tokens</span>
+                  <div className="text-muted-foreground text-xs mt-1">
+                    Your Balance: <span className={`font-semibold ${tokenBalance < 100 ? 'text-red-600' : 'text-foreground'}`}>{tokenBalance} tokens</span>
                   </div>
                   {tokenBalance < 100 && (
                     <div className="mt-2">

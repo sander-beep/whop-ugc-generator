@@ -117,12 +117,12 @@ export default function TokensPage() {
   if (!user) return null
 
   return (
-    <div className="min-h-screen bg-neutral-50 py-12">
+    <div className="min-h-screen bg-background py-12">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-3">Buy Tokens</h1>
-          <p className="text-lg text-neutral-600">
-            Your current balance: <span className="font-semibold text-neutral-900">{tokenBalance} tokens</span>
+          <h1 className="text-4xl font-bold mb-3 text-foreground">Buy Tokens</h1>
+          <p className="text-lg text-muted-foreground">
+            Your current balance: <span className="font-semibold text-foreground">{tokenBalance} tokens</span>
           </p>
         </div>
 
@@ -133,7 +133,7 @@ export default function TokensPage() {
               <Card
                 key={pkg.id}
                 className={`relative transition-all hover:shadow-lg ${
-                  pkg.popular ? 'border-2 border-blue-600 shadow-md' : 'border'
+                  pkg.popular ? 'border-2 border-blue-600 shadow-md' : 'border border-border'
                 }`}
               >
                 {pkg.popular && (
@@ -144,19 +144,19 @@ export default function TokensPage() {
                   </div>
                 )}
                 <CardHeader className="text-center pb-4 pt-8">
-                  <div className="w-14 h-14 mx-auto mb-4 bg-blue-50 rounded-full flex items-center justify-center">
+                  <div className="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-950/50 rounded-full flex items-center justify-center">
                     <IconComponent className="w-7 h-7 text-blue-600" />
                   </div>
                   <CardTitle className="text-2xl mb-2">{pkg.name}</CardTitle>
                   <div className="mb-3">
-                    <span className="text-4xl font-bold text-neutral-900">${pkg.price}</span>
+                    <span className="text-4xl font-bold text-foreground">${pkg.price}</span>
                   </div>
                   <div className="text-lg font-semibold text-blue-600">
                     {pkg.tokens} tokens
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-sm text-neutral-600 text-center min-h-[40px]">
+                  <p className="text-sm text-muted-foreground text-center min-h-[40px]">
                     {pkg.description}
                   </p>
                   <Button
@@ -174,11 +174,11 @@ export default function TokensPage() {
           })}
         </div>
 
-        <Card className="bg-gradient-to-br from-blue-50 to-neutral-50 border-blue-200">
+        <Card className="bg-gradient-to-br from-blue-50 to-neutral-50 dark:from-blue-950/20 dark:to-neutral-900/20 border-blue-200 dark:border-blue-900">
           <CardHeader>
             <CardTitle className="text-xl">How Tokens Work</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3 text-neutral-700">
+          <CardContent className="space-y-3 text-foreground/90">
             <div className="flex items-start gap-3">
               <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0" />
               <p>Each 10s AI-powered UGC video costs 100 tokens.</p>

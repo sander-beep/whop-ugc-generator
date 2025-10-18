@@ -33,7 +33,7 @@ export default async function DashboardPage({
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-background px-4">
         <Card className="max-w-md">
           <CardHeader>
             <CardTitle>Access Denied</CardTitle>
@@ -42,7 +42,7 @@ export default async function DashboardPage({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-neutral-600 mb-4">
+            <p className="text-sm text-muted-foreground mb-4">
               Only company owners and moderators can access this page.
             </p>
             <Link href="/">
@@ -55,7 +55,7 @@ export default async function DashboardPage({
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <Card className="mb-6">
           <CardHeader>
@@ -69,18 +69,18 @@ export default async function DashboardPage({
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-neutral-500">Your Role:</span>
-                <p className="font-medium capitalize">{accessLevel}</p>
+                <span className="text-muted-foreground">Your Role:</span>
+                <p className="font-medium capitalize text-foreground">{accessLevel}</p>
               </div>
               <div>
-                <span className="text-neutral-500">Company ID:</span>
-                <p className="font-mono text-xs">{companyId}</p>
+                <span className="text-muted-foreground">Company ID:</span>
+                <p className="font-mono text-xs text-foreground">{companyId}</p>
               </div>
             </div>
 
-            <div className="pt-4 border-t">
-              <h3 className="font-semibold mb-3">Admin Information</h3>
-              <div className="space-y-2 text-sm">
+            <div className="pt-4 border-t border-border">
+              <h3 className="font-semibold mb-3 text-foreground">Admin Information</h3>
+              <div className="space-y-2 text-sm text-foreground">
                 <p>
                   <strong>Admin:</strong> {user.name} (@{user.username})
                 </p>
@@ -90,8 +90,8 @@ export default async function DashboardPage({
               </div>
             </div>
 
-            <div className="pt-4 border-t">
-              <h3 className="font-semibold mb-3">Quick Actions</h3>
+            <div className="pt-4 border-t border-border">
+              <h3 className="font-semibold mb-3 text-foreground">Quick Actions</h3>
               <div className="grid gap-3">
                 <Link href="/">
                   <Button variant="outline" className="w-full">

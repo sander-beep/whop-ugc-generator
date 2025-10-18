@@ -38,7 +38,7 @@ export default async function ExperiencePage({
 
     if (!hasAccess) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-neutral-50 px-4">
+        <div className="min-h-screen flex items-center justify-center bg-background px-4">
           <Card className="max-w-md">
             <CardHeader>
               <CardTitle>Access Denied</CardTitle>
@@ -47,7 +47,7 @@ export default async function ExperiencePage({
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-neutral-600 mb-4">
+              <p className="text-sm text-muted-foreground mb-4">
                 Please contact the administrator or purchase access to continue.
               </p>
               <Link href="/">
@@ -74,7 +74,7 @@ export default async function ExperiencePage({
     
     // If there's an error (e.g., user not authenticated via Whop), show error
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-background px-4">
         <Card className="max-w-md">
           <CardHeader>
             <CardTitle>Authentication Error</CardTitle>
@@ -83,7 +83,7 @@ export default async function ExperiencePage({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-neutral-600 mb-4">
+            <p className="text-sm text-muted-foreground mb-4">
               This app must be accessed through Whop. Please make sure you're logged into Whop and accessing the app from your Whop dashboard.
             </p>
           </CardContent>

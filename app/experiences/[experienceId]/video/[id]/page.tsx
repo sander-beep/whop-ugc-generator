@@ -55,7 +55,7 @@ export default function VideoPage({ params }: { params: Promise<{ experienceId: 
   if (!user || !video) return null
 
   return (
-    <div className="min-h-screen bg-neutral-50 py-8">
+    <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4 max-w-4xl">
         <Card>
           <CardHeader>
@@ -79,10 +79,10 @@ export default function VideoPage({ params }: { params: Promise<{ experienceId: 
           </CardHeader>
           <CardContent className="space-y-6">
             {video.status === 'processing' && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
+              <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg p-6 text-center">
                 <RefreshCw className="w-12 h-12 mx-auto mb-4 text-blue-600 animate-spin" />
-                <h3 className="text-lg font-medium mb-2">Processing Your Video</h3>
-                <p className="text-sm text-neutral-600">
+                <h3 className="text-lg font-medium mb-2 text-foreground">Processing Your Video</h3>
+                <p className="text-sm text-muted-foreground">
                   Your AI-generated UGC ad is being created. This usually takes 2-5 minutes.
                 </p>
               </div>
@@ -105,56 +105,56 @@ export default function VideoPage({ params }: { params: Promise<{ experienceId: 
             )}
 
             {video.status === 'failed' && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+              <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 rounded-lg p-6 text-center">
                 <VideoIcon className="w-12 h-12 mx-auto mb-4 text-red-600" />
-                <h3 className="text-lg font-medium mb-2">Generation Failed</h3>
-                <p className="text-sm text-neutral-600">
+                <h3 className="text-lg font-medium mb-2 text-foreground">Generation Failed</h3>
+                <p className="text-sm text-muted-foreground">
                   Something went wrong while generating your video. Please try again.
                 </p>
               </div>
             )}
 
-            <div className="border-t pt-6 space-y-4">
-              <h3 className="font-semibold">Generation Details</h3>
+            <div className="border-t border-border pt-6 space-y-4">
+              <h3 className="font-semibold text-foreground">Generation Details</h3>
               <div className="grid gap-4 text-sm">
                 {video.prompt_data.product_description && (
                   <div>
-                    <span className="text-neutral-600">Product Description:</span>
-                    <div className="font-medium">{video.prompt_data.product_description}</div>
+                    <span className="text-muted-foreground">Product Description:</span>
+                    <div className="font-medium text-foreground">{video.prompt_data.product_description}</div>
                   </div>
                 )}
                 <div>
-                  <span className="text-neutral-600">Target Audience:</span>
-                  <div className="font-medium">{video.prompt_data.target_audience}</div>
+                  <span className="text-muted-foreground">Target Audience:</span>
+                  <div className="font-medium text-foreground">{video.prompt_data.target_audience}</div>
                 </div>
                 <div>
-                  <span className="text-neutral-600">UGC Character:</span>
-                  <div className="font-medium">{video.prompt_data.ugc_character}</div>
+                  <span className="text-muted-foreground">UGC Character:</span>
+                  <div className="font-medium text-foreground">{video.prompt_data.ugc_character}</div>
                 </div>
                 {video.prompt_data.platform && (
                   <div>
-                    <span className="text-neutral-600">Platform:</span>
-                    <div className="font-medium">{video.prompt_data.platform}</div>
+                    <span className="text-muted-foreground">Platform:</span>
+                    <div className="font-medium text-foreground">{video.prompt_data.platform}</div>
                   </div>
                 )}
                 <div>
-                  <span className="text-neutral-600">Aspect Ratio:</span>
-                  <div className="font-medium">{video.prompt_data.aspect_ratio}</div>
+                  <span className="text-muted-foreground">Aspect Ratio:</span>
+                  <div className="font-medium text-foreground">{video.prompt_data.aspect_ratio}</div>
                 </div>
                 <div>
-                  <span className="text-neutral-600">Segments:</span>
+                  <span className="text-muted-foreground">Segments:</span>
                   <div className="space-y-2 mt-2">
                     {video.prompt_data.segments?.map((segment, index) => (
-                      <div key={index} className="bg-neutral-50 p-3 rounded">
-                        <div className="font-medium text-xs text-neutral-500 mb-1">
+                      <div key={index} className="bg-accent/30 p-3 rounded border border-border">
+                        <div className="font-medium text-xs text-muted-foreground mb-1">
                           Segment {index + 1}
                         </div>
-                        <div className="text-sm mb-2">
-                          <span className="text-neutral-600">Dialogue: </span>
+                        <div className="text-sm mb-2 text-foreground">
+                          <span className="text-muted-foreground">Dialogue: </span>
                           {segment.dialogue}
                         </div>
-                        <div className="text-sm">
-                          <span className="text-neutral-600">Visual Description: </span>
+                        <div className="text-sm text-foreground">
+                          <span className="text-muted-foreground">Visual Description: </span>
                           {segment.visualDescription}
                         </div>
                       </div>
